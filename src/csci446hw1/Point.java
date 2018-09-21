@@ -41,4 +41,8 @@ public class Point {
     public boolean equals(int x, int y) {
         return this.x == x && this.y == y;
     }
+    
+    public boolean equals(Point that) {
+        return this.x == that.x && this.y == that.y;
+    }
 }

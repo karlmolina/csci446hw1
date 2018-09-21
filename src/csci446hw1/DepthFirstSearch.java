@@ -13,7 +13,7 @@ import java.util.Stack;
  * @author Karl
  */
 public class DepthFirstSearch {
-    public static Node Execute(Node root, Maze maze) {
+    public static Node execute(Node root, Maze maze) {
         Stack<Node> frontier = new Stack<>();
         frontier.push(root);
         
