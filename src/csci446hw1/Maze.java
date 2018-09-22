@@ -46,8 +46,6 @@ public class Maze {
         this.wallCharacter = wall;
         this.startCharacter = start;
         this.finishCharacter = finish;
-        
-        
 
         nodes = new Node[height][width];
         for (int i = 0; i < height; i++) {
@@ -91,7 +89,7 @@ public class Maze {
             System.out.println();
         }
     }
-    
+
     Node startNode() {
         return startNode;
     }
@@ -117,6 +115,10 @@ public class Maze {
         characters[point.y()][point.x()] = '.';
     }
 
+    void mark(Point point, char c) {
+        characters[point.y()][point.x()] = c;
+    }
+
     boolean isMarked(Point point) {
         return charAt(point) == '.';
     }
@@ -138,5 +140,43 @@ public class Maze {
             }
         }
         return null;
+    }
+
+    public void clean() {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if (characters[i][j] == '.' || characters[i][j] == 'X') {
+                    characters[i][j] = ' ';
+                }
+            }
+        }
+    }
+
+    public void printSolution(Node finish) {
+        clean();
+        Node current = finish.parent();
+
+        while (current.parent() != null) {
+            mark(current.point());
+            current = current.parent();
+        }
+
+        print();
+    }
+
+    public void printPath(Node finish) {
+        clean();
+        Node current = finish.parent();
+        if (current != null) {
+
+            while (current.parent() != null) {
+                mark(current.point(), '.');
+                current = current.parent();
+            }
+            
+            mark(finish.point(), 'X');
+
+            print();
+        }
     }
 }

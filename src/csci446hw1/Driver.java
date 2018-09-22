@@ -27,11 +27,11 @@ public class Driver {
                 largeMaze = "mazes/large Maze.txt",
                 blankMaze = "mazes/blank Maze.txt";
 
-        String currentMaze = largeMaze;
+        String currentMaze = blankMaze;
         Maze maze = new Maze(new File(currentMaze), '%', 'P', '*');
 
-        Node finish = DepthFirstSearch.execute(maze.startNode());
+        Node finish = DepthFirstSearch.execute(maze.startNode(), maze);
 
-        MazeSolution.printSolution(finish, new Maze(new File(currentMaze)));
+        maze.printSolution(finish);
     }
 }

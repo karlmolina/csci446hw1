@@ -14,16 +14,18 @@ import java.util.Stack;
  * @author Karl
  */
 public class DepthFirstSearch {
-    public static Node execute(Node root) {
+    public static Node execute(Node root, Maze maze) {
         Stack<Node> frontier = new Stack<>();
         HashSet<Node> expanded = new HashSet<>();
         frontier.push(root);
         Node current = null;
+        int count = 0;
         while(!frontier.empty()) {
+            count++;
             current = frontier.pop();
             expanded.add(current);
             for (Node child: current.children()) {
-                //don't know whether to not check frontier, it is better if it does check frontier
+                //if you don't check the frontier then you expand nodes twice
                 if (!frontier.contains(child) && !expanded.contains(child)) {
                     child.setParent(current);
                     if (child.isFinish()) {
@@ -32,7 +34,9 @@ public class DepthFirstSearch {
                     frontier.push(child);
                 }
             }
+            //maze.printPath(current);
         }
+        System.out.println(count);
         return current;
     }
 }
