@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author Karl
  */
 public class Node {
-    private boolean isFinish;
+    private boolean isGoal;
     
     private Node parent;
     private final Point point;
@@ -41,11 +41,11 @@ public class Node {
     }
     
     public void makeGoal() {
-        isFinish = true;
+        isGoal = true;
     }
     
     public boolean isGoal() {
-        return isFinish;
+        return isGoal;
     }
     
     public ArrayList<Node> children() {
