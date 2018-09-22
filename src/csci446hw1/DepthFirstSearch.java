@@ -5,7 +5,6 @@
  */
 package csci446hw1;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Stack;
 
@@ -28,7 +27,7 @@ public class DepthFirstSearch {
                 //if you don't check the frontier then you expand nodes twice
                 if (!frontier.contains(child) && !expanded.contains(child)) {
                     child.setParent(current);
-                    if (child.isFinish()) {
+                    if (child.isGoal()) {
                         return child;
                     }
                     frontier.push(child);

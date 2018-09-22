@@ -23,7 +23,7 @@ public class BreadthFirstSearch {
         while (!frontier.isEmpty()) {
             Node current = frontier.remove();
             
-            if (current.isFinish()) {
+            if (current.isGoal()) {
                 return current;
             }
 

@@ -45,14 +45,6 @@ public class Point {
     public Point[] surrounding() {
         return new Point[]{right(), up(), left(), down()};
     }
-
-    public boolean equals(int x, int y) {
-        return this.x == x && this.y == y;
-    }
-
-    public boolean equals(Point that) {
-        return this.x == that.x && this.y == that.y;
-    }
     
     @Override
     public String toString() {

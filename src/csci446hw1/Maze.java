@@ -19,12 +19,12 @@ public class Maze {
 
     private char[][] characters;
     private final char[][] cleanCharacters;
-    private Node[][] nodes;
+    private final Node[][] nodes;
     private int height, width;
-    private char wallCharacter, startCharacter, finishCharacter;
-    private HashSet<Character> usedCharacters;
-    private Node startNode, finishNode;
-    private File mazeFile;
+    private final char wallCharacter, startCharacter, finishCharacter;
+    private final HashSet<Character> usedCharacters;
+    private Node startNode;
+    private final File mazeFile;
 
     public Maze(File mazeFile, char wall, char start, char finish) throws FileNotFoundException {
         this.mazeFile = mazeFile;
@@ -36,7 +36,7 @@ public class Maze {
         this.startCharacter = start;
         this.finishCharacter = finish;
 
-        usedCharacters = new HashSet<Character>();
+        usedCharacters = new HashSet<>();
         usedCharacters.add(wallCharacter);
         usedCharacters.add(startCharacter);
         usedCharacters.add(finishCharacter);
@@ -50,10 +50,9 @@ public class Maze {
                 Node currentNode = new Node(j, i);
 
                 if (currentCharacter == startCharacter) {
-                    currentNode.makeStart();
                     startNode = currentNode;
                 } else if (currentCharacter == finishCharacter) {
-                    currentNode.makeFinish();
+                    currentNode.makeGoal();
                 } else if (currentCharacter == wallCharacter) {
                     currentNode = null;
                 }
@@ -77,7 +76,6 @@ public class Maze {
     }
 
     private void processFile() throws FileNotFoundException {
-        mazeFile = this.mazeFile;
         Scanner in = new Scanner(mazeFile);
         ArrayList<String> lines = new ArrayList<>();
         while (in.hasNextLine()) {
@@ -93,7 +91,7 @@ public class Maze {
         }
     }
 
-    void print() {
+    public final void print() {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 System.out.print(characters[i][j]);
@@ -102,63 +100,21 @@ public class Maze {
         }
     }
 
-    Node startNode() {
+    public Node startNode() {
         return startNode;
     }
 
-    void print(Point point) {
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                if (point.equals(j, i)) {
-                    System.out.print("X");
-                } else {
-                    System.out.print(characters[i][j]);
-                }
-            }
-            System.out.println();
-        }
+    private void mark(Point point) {
+        mark(point, '.');
     }
 
-    private char charAt(Point point) {
-        return characters[point.y()][point.x()];
-    }
-
-    void mark(Point point) {
-        characters[point.y()][point.x()] = '.';
-    }
-
-    void mark(Point point, char c) {
+    private void mark(Point point, char c) {
         characters[point.y()][point.x()] = c;
-    }
-
-    boolean isMarked(Point point) {
-        return charAt(point) == '.';
-    }
-
-    boolean isWall(Point point) {
-        return charAt(point) == '%';
-    }
-
-    boolean isFinish(Point point) {
-        return charAt(point) == '*';
-    }
-
-    Node findStart() {
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                if (characters[i][j] == 'P') {
-                    return new Node(new Point(j, i), null);
-                }
-            }
-        }
-        return null;
     }
 
     public void clean() {
         for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                characters[i][j] = cleanCharacters[i][j];
-            }
+            System.arraycopy(cleanCharacters[i], 0, characters[i], 0, width);
         }
     }
 
@@ -181,7 +137,7 @@ public class Maze {
                 current = current.parent();
             }
 
-            if (!last.isFinish()) {
+            if (!last.isGoal()) {
                 mark(last.point(), 'X');
             }
         }
@@ -189,9 +145,9 @@ public class Maze {
 
     public void markExpanded(HashSet<Node> expanded, Node last) {
         clean();
-        for (Node node : expanded) {
+        expanded.forEach((node) -> {
             mark(node.point());
-        }
+        });
         mark(last.point(), 'X');
         markPath(last);
     }
