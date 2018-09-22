@@ -7,8 +7,6 @@ package csci446hw1;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * CSCI 446 Artificial Intelligence Homework 1 Pacman Search
