@@ -24,12 +24,13 @@ public class Driver {
     public static void main(String[] args) throws FileNotFoundException {
         final String mediumMaze = "mazes/medium maze.txt",
                 openMaze = "mazes/open maze.txt",
-                largeMaze = "mazes/large Maze.txt";
+                largeMaze = "mazes/large Maze.txt",
+                blankMaze = "mazes/blank Maze.txt";
 
-        String currentMaze = openMaze;
+        String currentMaze = largeMaze;
         Maze maze = new Maze(new File(currentMaze), '%', 'P', '*');
 
-        Node finish = BreadthFirstSearch.execute(maze.findStart(), maze);
+        Node finish = DepthFirstSearch.execute(maze.startNode());
 
         MazeSolution.printSolution(finish, new Maze(new File(currentMaze)));
     }

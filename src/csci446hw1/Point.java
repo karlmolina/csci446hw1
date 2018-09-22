@@ -53,4 +53,9 @@ public class Point {
     public boolean equals(Point that) {
         return this.x == that.x && this.y == that.y;
     }
+    
+    @Override
+    public String toString() {
+        return x + ", " + y;
+    }
 }

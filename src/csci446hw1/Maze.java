@@ -16,10 +16,11 @@ import java.util.Scanner;
  */
 public class Maze {
 
-    private final char[][] mazeCharacters;
+    private final char[][] characters;
     private Node[][] nodes;
     private int height, width;
-    private char wall, start, finish;
+    private char wallCharacter, startCharacter, finishCharacter;
+    private Node startNode, finishNode;
 
     public Maze(File mazeFile) throws FileNotFoundException {
         Scanner in = new Scanner(mazeFile);
@@ -31,30 +32,46 @@ public class Maze {
         width = lines.get(0).length();
         height = lines.size();
 
-        mazeCharacters = new char[width][height];
+        characters = new char[height][width];
         for (int i = 0; i < height; i++) {
-            mazeCharacters[i] = lines.get(i).toCharArray();
+            characters[i] = lines.get(i).toCharArray();
         }
+    }
 
-        nodes = new Node[width][height];
+    public Maze(File mazeFile, char wall, char start, char finish) throws FileNotFoundException {
+        this(mazeFile);
+
+        print();
+
+        this.wallCharacter = wall;
+        this.startCharacter = start;
+        this.finishCharacter = finish;
+        
+        
+
+        nodes = new Node[height][width];
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                if (mazeCharacters[i][j] != wall) {
-                    nodes[i][j] = new Node(j, i);
+                char currentCharacter = characters[i][j];
+                Node currentNode = null;
+                if (currentCharacter != wallCharacter) {
+                    currentNode = new Node(j, i);
                 }
-                if (mazeCharacters[i][j] == start) {
-                    nodes[i][j].makeStart();
+                if (currentCharacter == startCharacter) {
+                    currentNode.makeStart();
+                    startNode = currentNode;
                 }
-                if (mazeCharacters[i][j] == finish) {
-                    nodes[i][j].makeFinish();
+                if (currentCharacter == finishCharacter) {
+                    currentNode.makeFinish();
                 }
+                nodes[i][j] = currentNode;
             }
         }
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 Node current = nodes[i][j];
-                if (null != null) {
+                if (current != null) {
                     for (Point p : current.point().surrounding()) {
                         Node possibleChild = nodes[p.y()][p.x()];
                         if (possibleChild != null) {
@@ -66,23 +83,17 @@ public class Maze {
         }
     }
 
-    public Maze(File mazeFile, char wall, char start, char finish) throws FileNotFoundException {
-        this(mazeFile);
-
-        print();
-
-        this.wall = wall;
-        this.start = start;
-        this.finish = finish;
-    }
-
     void print() {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                System.out.print(mazeCharacters[i][j]);
+                System.out.print(characters[i][j]);
             }
             System.out.println();
         }
+    }
+    
+    Node startNode() {
+        return startNode;
     }
 
     void print(Point point) {
@@ -91,7 +102,7 @@ public class Maze {
                 if (point.equals(j, i)) {
                     System.out.print("X");
                 } else {
-                    System.out.print(mazeCharacters[i][j]);
+                    System.out.print(characters[i][j]);
                 }
             }
             System.out.println();
@@ -99,11 +110,11 @@ public class Maze {
     }
 
     private char charAt(Point point) {
-        return mazeCharacters[point.y()][point.x()];
+        return characters[point.y()][point.x()];
     }
 
     void mark(Point point) {
-        mazeCharacters[point.y()][point.x()] = '.';
+        characters[point.y()][point.x()] = '.';
     }
 
     boolean isMarked(Point point) {
@@ -121,7 +132,7 @@ public class Maze {
     Node findStart() {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                if (mazeCharacters[i][j] == 'P') {
+                if (characters[i][j] == 'P') {
                     return new Node(new Point(j, i), null);
                 }
             }

@@ -6,6 +6,7 @@
 package csci446hw1;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Stack;
 
 /**
@@ -13,23 +14,25 @@ import java.util.Stack;
  * @author Karl
  */
 public class DepthFirstSearch {
-    public static Node execute(Node root, Maze maze) {
+    public static Node execute(Node root) {
         Stack<Node> frontier = new Stack<>();
+        HashSet<Node> expanded = new HashSet<>();
         frontier.push(root);
-        
+        Node current = null;
         while(!frontier.empty()) {
-            Node current = frontier.pop();
-            maze.mark(current.point());
-            for (Node child: current.availablePaths()) {
-                if (!maze.isWall(child.point()) && !(maze.isMarked(child.point()))) {
-                    if (maze.isFinish(child.point())) {
+            current = frontier.pop();
+            expanded.add(current);
+            for (Node child: current.children()) {
+                //don't know whether to not check frontier, it is better if it does check frontier
+                if (!frontier.contains(child) && !expanded.contains(child)) {
+                    child.setParent(current);
+                    if (child.isFinish()) {
                         return child;
                     }
                     frontier.push(child);
                 }
             }
-            maze.print(current.point());
         }
-        return null;
+        return current;
     }
 }

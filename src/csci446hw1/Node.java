@@ -41,6 +41,10 @@ public class Node {
         return parent;
     }
     
+    public void setParent(Node node) {
+        this.parent = node;
+    }
+    
     public Point point() {
         return point;
     }
@@ -63,5 +67,14 @@ public class Node {
     
     public boolean isFinish() {
         return isFinish;
+    }
+    
+    public ArrayList<Node> children() {
+        return children;
+    }
+    
+    @Override
+    public String toString() {
+        return point.toString();
     }
 }
