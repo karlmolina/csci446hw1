@@ -34,7 +34,8 @@ public class DepthFirstSearch {
                     frontier.push(child);
                 }
             }
-            //maze.printPath(current);
+            maze.markExpanded(expanded, current);
+            maze.print();
         }
         System.out.println(count);
         return current;

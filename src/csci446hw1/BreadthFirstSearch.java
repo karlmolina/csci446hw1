@@ -5,9 +5,8 @@
  */
 package csci446hw1;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Stack;
 
 /**
  *
@@ -17,31 +16,30 @@ public class BreadthFirstSearch {
 
     public static Node execute(Node root, Maze maze) {
         LinkedList<Node> frontier = new LinkedList<>();
+        HashSet<Node> expanded = new HashSet<>();
+
         frontier.add(root);
 
         while (!frontier.isEmpty()) {
             Node current = frontier.remove();
-            if (maze.isFinish(current.point())) {
+            
+            if (current.isFinish()) {
                 return current;
             }
-            
-            maze.mark(current.point());
-            
-            for (Node child : current.availablePaths()) {
-                if (!maze.isWall(child.point()) && !(maze.isMarked(child.point()))) {
-                    boolean frontierHasChild = false;
-                    for (Node n : frontier) {
-                        if (n.point().equals(child.point())) {
-                            frontierHasChild = true;
-                        }
-                    }
-                    if (!frontierHasChild) {
-                        frontier.add(child);
-                    }
+
+            expanded.add(current);
+
+            for (Node child : current.children()) {
+                if (!frontier.contains(child) && !expanded.contains(child)) {
+                    child.setParent(current);
+                    frontier.add(child);
                 }
             }
-            //maze.print(current.point());
+
+            maze.markExpanded(expanded, current);
+            maze.print();
         }
+
         return null;
     }
 }

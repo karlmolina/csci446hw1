@@ -8,6 +8,7 @@ package csci446hw1;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
 
 /**
@@ -16,30 +17,18 @@ import java.util.Scanner;
  */
 public class Maze {
 
-    private final char[][] characters;
+    private char[][] characters;
+    private final char[][] cleanCharacters;
     private Node[][] nodes;
     private int height, width;
     private char wallCharacter, startCharacter, finishCharacter;
+    private HashSet<Character> usedCharacters;
     private Node startNode, finishNode;
-
-    public Maze(File mazeFile) throws FileNotFoundException {
-        Scanner in = new Scanner(mazeFile);
-        ArrayList<String> lines = new ArrayList<>();
-        while (in.hasNextLine()) {
-            lines.add(in.nextLine());
-        }
-
-        width = lines.get(0).length();
-        height = lines.size();
-
-        characters = new char[height][width];
-        for (int i = 0; i < height; i++) {
-            characters[i] = lines.get(i).toCharArray();
-        }
-    }
+    private File mazeFile;
 
     public Maze(File mazeFile, char wall, char start, char finish) throws FileNotFoundException {
-        this(mazeFile);
+        this.mazeFile = mazeFile;
+        processFile();
 
         print();
 
@@ -47,20 +36,26 @@ public class Maze {
         this.startCharacter = start;
         this.finishCharacter = finish;
 
+        usedCharacters = new HashSet<Character>();
+        usedCharacters.add(wallCharacter);
+        usedCharacters.add(startCharacter);
+        usedCharacters.add(finishCharacter);
+
         nodes = new Node[height][width];
+        cleanCharacters = new char[height][width];
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 char currentCharacter = characters[i][j];
-                Node currentNode = null;
-                if (currentCharacter != wallCharacter) {
-                    currentNode = new Node(j, i);
-                }
+                cleanCharacters[i][j] = currentCharacter;
+                Node currentNode = new Node(j, i);
+
                 if (currentCharacter == startCharacter) {
                     currentNode.makeStart();
                     startNode = currentNode;
-                }
-                if (currentCharacter == finishCharacter) {
+                } else if (currentCharacter == finishCharacter) {
                     currentNode.makeFinish();
+                } else if (currentCharacter == wallCharacter) {
+                    currentNode = null;
                 }
                 nodes[i][j] = currentNode;
             }
@@ -78,6 +73,23 @@ public class Maze {
                     }
                 }
             }
+        }
+    }
+
+    private void processFile() throws FileNotFoundException {
+        mazeFile = this.mazeFile;
+        Scanner in = new Scanner(mazeFile);
+        ArrayList<String> lines = new ArrayList<>();
+        while (in.hasNextLine()) {
+            lines.add(in.nextLine());
+        }
+
+        width = lines.get(0).length();
+        height = lines.size();
+
+        characters = new char[height][width];
+        for (int i = 0; i < height; i++) {
+            characters[i] = lines.get(i).toCharArray();
         }
     }
 
@@ -145,14 +157,12 @@ public class Maze {
     public void clean() {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                if (characters[i][j] == '.' || characters[i][j] == 'X') {
-                    characters[i][j] = ' ';
-                }
+                characters[i][j] = cleanCharacters[i][j];
             }
         }
     }
 
-    public void printSolution(Node finish) {
+    public void markSolution(Node finish) {
         clean();
         Node current = finish.parent();
 
@@ -160,23 +170,29 @@ public class Maze {
             mark(current.point());
             current = current.parent();
         }
-
-        print();
     }
 
-    public void printPath(Node finish) {
-        clean();
-        Node current = finish.parent();
+    public void markPath(Node last) {
+        Node current = last.parent();
         if (current != null) {
 
             while (current.parent() != null) {
-                mark(current.point(), '.');
+                mark(current.point(), 'o');
                 current = current.parent();
             }
-            
-            mark(finish.point(), 'X');
 
-            print();
+            if (!last.isFinish()) {
+                mark(last.point(), 'X');
+            }
         }
+    }
+
+    public void markExpanded(HashSet<Node> expanded, Node last) {
+        clean();
+        for (Node node : expanded) {
+            mark(node.point());
+        }
+        mark(last.point(), 'X');
+        markPath(last);
     }
 }
