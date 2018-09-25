@@ -28,13 +28,15 @@ public class DepthFirstSearch {
                 if (!frontier.contains(child) && !expanded.contains(child)) {
                     child.setParent(current);
                     if (child.isGoal()) {
+                        maze.markSolution(child);
+                        maze.print();
                         return child;
                     }
                     frontier.push(child);
                 }
             }
-            maze.markExpanded(expanded, current);
-            maze.print();
+            //maze.markExpanded(expanded, current);
+            //maze.print();
         }
         System.out.println(count);
         return current;

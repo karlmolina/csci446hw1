@@ -22,24 +22,16 @@ public class Maze {
     private final Node[][] nodes;
     private int height, width;
     private final char wallCharacter, startCharacter, finishCharacter;
-    private final HashSet<Character> usedCharacters;
-    private Node startNode;
+    private Node startNode, goalNode;
     private final File mazeFile;
 
     public Maze(File mazeFile, char wall, char start, char finish) throws FileNotFoundException {
         this.mazeFile = mazeFile;
         processFile();
 
-        print();
-
         this.wallCharacter = wall;
         this.startCharacter = start;
         this.finishCharacter = finish;
-
-        usedCharacters = new HashSet<>();
-        usedCharacters.add(wallCharacter);
-        usedCharacters.add(startCharacter);
-        usedCharacters.add(finishCharacter);
 
         nodes = new Node[height][width];
         cleanCharacters = new char[height][width];
@@ -53,6 +45,7 @@ public class Maze {
                     startNode = currentNode;
                 } else if (currentCharacter == finishCharacter) {
                     currentNode.makeGoal();
+                    goalNode = currentNode;
                 } else if (currentCharacter == wallCharacter) {
                     currentNode = null;
                 }
@@ -102,6 +95,10 @@ public class Maze {
 
     public Node startNode() {
         return startNode;
+    }
+    
+    public Node goalNode() {
+        return goalNode;
     }
 
     private void mark(Point point) {

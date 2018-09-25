@@ -11,17 +11,23 @@ import java.util.ArrayList;
  *
  * @author Karl
  */
-public class Node {
+public class Node implements Comparable<Node>{
     private boolean isGoal;
-    
     private Node parent;
-    private final Point point;
-    private final ArrayList<Node> children;
+    private Point point;
+    private ArrayList<Node> children;
+    private int costFromStart = Integer.MAX_VALUE;
+    private int costStartToGoal;
     
     public Node(int x, int y) {
         this.parent = null;
         this.children = new ArrayList<>();
         point = new Point(x, y);
+    }
+    
+    public Node(int cost) {
+        costStartToGoal = cost;
+        point = new Point(0,0);
     }
 
     public Node parent() {
@@ -52,8 +58,29 @@ public class Node {
         return children;
     }
     
+    public void setCostFromStart(int costFromStart) {
+        this.costFromStart = costFromStart;
+    }
+    
+    public int getCostFromStart() {
+        return costFromStart;
+    }
+    
+    public void setCostStartToGoal(int costStartToGoal) {
+        this.costStartToGoal = costStartToGoal;
+    }
+    
+    public int getCostStartToGoal() {
+        return costStartToGoal;
+    }
+    
     @Override
     public String toString() {
-        return point.toString();
+        return point.toString() + " : " + costStartToGoal;
+    }
+
+    @Override
+    public int compareTo(Node o) {
+        return this.costStartToGoal - o.costStartToGoal;
     }
 }

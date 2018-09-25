@@ -24,6 +24,8 @@ public class BreadthFirstSearch {
             Node current = frontier.remove();
             
             if (current.isGoal()) {
+                maze.markSolution(current);
+                maze.print();
                 return current;
             }
 
@@ -36,10 +38,10 @@ public class BreadthFirstSearch {
                 }
             }
 
-            maze.markExpanded(expanded, current);
-            maze.print();
+            //maze.markExpanded(expanded, current);
+            //maze.print();
         }
-
+        
         return null;
     }
 }
