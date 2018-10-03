@@ -21,35 +21,24 @@ public class Driver {
      * @throws java.io.FileNotFoundException
      */
     public static void main(String[] args) throws FileNotFoundException {
-        
-        System.out.println(AStar.heuristicCostEstimate(new Node(40, 1), new Node(30, 4)));
-        
-        PriorityQueue<Node> pq = new PriorityQueue<>();
-        pq.add(new Node(4));
-        pq.add(new Node(2));
-        pq.add(new Node(3));
-        pq.add(new Node(1));
-        
-        while(!pq.isEmpty()) {
-            System.out.println(pq.remove());
-        }
-        
+
         final String mediumMaze = "mazes/medium maze.txt",
                 openMaze = "mazes/open maze.txt",
                 largeMaze = "mazes/large Maze.txt",
                 blankMaze = "mazes/blank Maze.txt";
 
-        String currentMaze = largeMaze;
+        String currentMaze = openMaze;
 
-        String[] mazePaths = new String[] { openMaze, mediumMaze, largeMaze };
-        
+        String[] mazePaths = new String[]{openMaze, mediumMaze, largeMaze};
+
         for (String mazePath : mazePaths) {
-            
-        //DepthFirstSearch.execute(maze.startNode(), maze);
-        //BreadthFirstSearch.execute(maze.startNode(), maze);
-        
+
+            //DepthFirstSearch.execute(maze.startNode(), maze);
+            //BreadthFirstSearch.execute(maze.startNode(), maze);
         }
         Maze maze = new Maze(new File(currentMaze), '%', 'P', '*');
         AStar.execute(maze.startNode(), maze.goalNode(), maze);
+        //BreadthFirstSearch.execute(maze.startNode(), maze);
+        //DepthFirstSearch.execute(maze.startNode(), maze);
     }
 }

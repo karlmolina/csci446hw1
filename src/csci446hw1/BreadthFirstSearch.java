@@ -38,8 +38,8 @@ public class BreadthFirstSearch {
                 }
             }
 
-            //maze.markExpanded(expanded, current);
-            //maze.print();
+            maze.markExpanded(expanded, current);
+            maze.print();
         }
         
         return null;

@@ -24,7 +24,6 @@ public class AStar {
         frontier.add(start);
 
         while (!frontier.isEmpty()) {
-            System.out.println(frontier.peek());
             Node current = frontier.remove();
             expanded.add(current);
              

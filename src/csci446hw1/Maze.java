@@ -21,20 +21,22 @@ public class Maze {
     private final char[][] cleanCharacters;
     private final Node[][] nodes;
     private int height, width;
-    private final char wallCharacter, startCharacter, finishCharacter;
+    private final char wallCharacter, startCharacter, goalCharacter;
     private Node startNode, goalNode;
     private final File mazeFile;
 
-    public Maze(File mazeFile, char wall, char start, char finish) throws FileNotFoundException {
+    public Maze(File mazeFile, char wall, char start, char goal) throws FileNotFoundException {
         this.mazeFile = mazeFile;
         processFile();
 
         this.wallCharacter = wall;
         this.startCharacter = start;
-        this.finishCharacter = finish;
+        this.goalCharacter = goal;
 
         nodes = new Node[height][width];
         cleanCharacters = new char[height][width];
+        
+        //populate the 2d Node array
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 char currentCharacter = characters[i][j];
@@ -43,7 +45,7 @@ public class Maze {
 
                 if (currentCharacter == startCharacter) {
                     startNode = currentNode;
-                } else if (currentCharacter == finishCharacter) {
+                } else if (currentCharacter == goalCharacter) {
                     currentNode.makeGoal();
                     goalNode = currentNode;
                 } else if (currentCharacter == wallCharacter) {
@@ -52,7 +54,8 @@ public class Maze {
                 nodes[i][j] = currentNode;
             }
         }
-
+        
+        //Add children to all the nodes to connect them
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 Node current = nodes[i][j];
