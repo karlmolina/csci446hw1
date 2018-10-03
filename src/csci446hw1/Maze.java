@@ -121,11 +121,13 @@ public class Maze {
     public void markSolution(Node finish) {
         clean();
         Node current = finish.parent();
-
+        int count = 1;
         while (current.parent() != null) {
             mark(current.point());
             current = current.parent();
+            count++;
         }
+        System.out.println("Solution Cost: " + count);
     }
 
     public void markPath(Node last) {

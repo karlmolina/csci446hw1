@@ -12,9 +12,10 @@ import java.util.LinkedList;
  *
  * @author Karl
  */
-public class BreadthFirstSearch {
+public class BreadthFirst {
 
     public static Node execute(Node root, Maze maze) {
+        System.out.println("Breadth First Search");
         LinkedList<Node> frontier = new LinkedList<>();
         HashSet<Node> expanded = new HashSet<>();
 
@@ -25,6 +26,7 @@ public class BreadthFirstSearch {
             
             if (current.isGoal()) {
                 maze.markSolution(current);
+                System.out.println("Number of expanded nodes: " + expanded.size());
                 maze.print();
                 return current;
             }
@@ -38,8 +40,8 @@ public class BreadthFirstSearch {
                 }
             }
 
-            maze.markExpanded(expanded, current);
-            maze.print();
+            //maze.markExpanded(expanded, current);
+            //maze.print();
         }
         
         return null;

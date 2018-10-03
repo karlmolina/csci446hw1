@@ -12,35 +12,39 @@ import java.util.PriorityQueue;
  *
  * @author Jordan
  */
-public class Greedy {
+public class GreedyBestFirst {
     
     public static Node execute(Node start, Node goal, Maze maze) {
+        System.out.println("Greedy Best First");
         PriorityQueue<Node> frontier = new PriorityQueue<>();
         HashSet<Node> expanded = new HashSet<>();
 
         start.setCost(heuristicCostEstimate(start, goal));
         frontier.add(start);
-
+        int count = 0;
         while (!frontier.isEmpty()) {
             Node current = frontier.remove();
             expanded.add(current);
              
+            System.out.println(count);
             maze.markExpanded(expanded, current);
             maze.print();
 
             if (current == goal) {
                 maze.markSolution(current);
+                System.out.println("Number of expanded nodes: " + expanded.size());
                 maze.print();
                 return current;
             }
             
             for (Node child : current.children()) {
                 if(!expanded.contains(child) && !frontier.contains(child)){
-                    child.setCost(heuristicCostEstimate(current, goal));
+                    child.setCost(heuristicCostEstimate(child, goal));
                     frontier.add(child);
                     child.setParent(current);
                 }
             }
+            count++;
         }
 
         return null;

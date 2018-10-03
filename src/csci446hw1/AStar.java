@@ -16,6 +16,7 @@ import java.util.PriorityQueue;
 public class AStar {
 
     public static Node execute(Node start, Node goal, Maze maze) {
+        System.out.println("A Star");
         PriorityQueue<Node> frontier = new PriorityQueue<>();
         HashSet<Node> expanded = new HashSet<>();
 
@@ -27,11 +28,12 @@ public class AStar {
             Node current = frontier.remove();
             expanded.add(current);
              
-            maze.markExpanded(expanded, current);
-            maze.print();
+            //maze.markExpanded(expanded, current);
+            //maze.print();
 
             if (current == goal) {
                 maze.markSolution(current);
+                System.out.println("Number of expanded nodes: " + expanded.size());
                 maze.print();
                 return current;
             }
@@ -54,7 +56,6 @@ public class AStar {
                 frontier.remove(child);
                 frontier.add(child);
             }
-            System.out.println("looped");
         }
 
         return null;

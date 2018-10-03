@@ -12,15 +12,15 @@ import java.util.Stack;
  *
  * @author Karl
  */
-public class DepthFirstSearch {
+public class DepthFirst {
     public static Node execute(Node root, Maze maze) {
+        System.out.println("Depth First Search");
         Stack<Node> frontier = new Stack<>();
         HashSet<Node> expanded = new HashSet<>();
         frontier.push(root);
         Node current = null;
-        int count = 0;
+        
         while(!frontier.empty()) {
-            count++;
             current = frontier.pop();
             expanded.add(current);
             for (Node child: current.children()) {
@@ -29,16 +29,16 @@ public class DepthFirstSearch {
                     child.setParent(current);
                     if (child.isGoal()) {
                         maze.markSolution(child);
+                        System.out.println("Number of expanded nodes: " + expanded.size());
                         maze.print();
                         return child;
                     }
                     frontier.push(child);
                 }
             }
-            maze.markExpanded(expanded, current);
-            maze.print();
+            //maze.markExpanded(expanded, current);
+            //maze.print();
         }
-        System.out.println(count);
         return current;
     }
 }
