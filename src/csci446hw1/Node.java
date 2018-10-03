@@ -17,7 +17,8 @@ public class Node implements Comparable<Node>{
     private Point point;
     private ArrayList<Node> children;
     private int costFromStart = Integer.MAX_VALUE;
-    private int costStartToGoal;
+    private int cost;
+
     
     public Node(int x, int y) {
         this.parent = null;
@@ -26,7 +27,7 @@ public class Node implements Comparable<Node>{
     }
     
     public Node(int cost) {
-        costStartToGoal = cost;
+        this.cost = cost;
         point = new Point(0,0);
     }
 
@@ -66,21 +67,22 @@ public class Node implements Comparable<Node>{
         return costFromStart;
     }
     
-    public void setCostStartToGoal(int costStartToGoal) {
-        this.costStartToGoal = costStartToGoal;
+    public void setCost(int cost) {
+        this.cost = cost;
     }
     
-    public int getCostStartToGoal() {
-        return costStartToGoal;
+    public int getCost() {
+        return cost;
     }
+ 
     
     @Override
     public String toString() {
-        return point.toString() + " : " + costStartToGoal;
+        return point.toString() + " : " + cost;
     }
 
     @Override
     public int compareTo(Node o) {
-        return this.costStartToGoal - o.costStartToGoal;
+        return this.cost - o.cost;
     }
 }

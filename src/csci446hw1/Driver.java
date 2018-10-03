@@ -27,7 +27,7 @@ public class Driver {
                 largeMaze = "mazes/large Maze.txt",
                 blankMaze = "mazes/blank Maze.txt";
 
-        String currentMaze = openMaze;
+        String currentMaze = largeMaze;
 
         String[] mazePaths = new String[]{openMaze, mediumMaze, largeMaze};
 
@@ -37,7 +37,8 @@ public class Driver {
             //BreadthFirstSearch.execute(maze.startNode(), maze);
         }
         Maze maze = new Maze(new File(currentMaze), '%', 'P', '*');
-        AStar.execute(maze.startNode(), maze.goalNode(), maze);
+        Greedy.execute(maze.startNode(), maze.goalNode(), maze);
+        //AStar.execute(maze.startNode(), maze.goalNode(), maze);
         //BreadthFirstSearch.execute(maze.startNode(), maze);
         //DepthFirstSearch.execute(maze.startNode(), maze);
     }

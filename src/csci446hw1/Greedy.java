@@ -6,20 +6,18 @@
 package csci446hw1;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.PriorityQueue;
 
 /**
  *
- * @author Karl
+ * @author Jordan
  */
-public class AStar {
-
+public class Greedy {
+    
     public static Node execute(Node start, Node goal, Maze maze) {
         PriorityQueue<Node> frontier = new PriorityQueue<>();
         HashSet<Node> expanded = new HashSet<>();
 
-        start.setCostFromStart(0);
         start.setCost(heuristicCostEstimate(start, goal));
         frontier.add(start);
 
@@ -37,24 +35,12 @@ public class AStar {
             }
             
             for (Node child : current.children()) {
-                if (expanded.contains(child)) {
-                    continue;
-                }
-                int childCostFromStart = current.getCostFromStart() + 1;
-
-                if (!frontier.contains(child)) {
+                if(!expanded.contains(child) && !frontier.contains(child)){
+                    child.setCost(heuristicCostEstimate(current, goal));
                     frontier.add(child);
-                } else if (childCostFromStart >= child.getCostFromStart()) {
-                    continue;
+                    child.setParent(current);
                 }
-                
-                child.setParent(current);
-                child.setCostFromStart(current.getCostFromStart() + 1);
-                child.setCost(child.getCostFromStart() + heuristicCostEstimate(child, goal));
-                frontier.remove(child);
-                frontier.add(child);
             }
-            System.out.println("looped");
         }
 
         return null;
@@ -64,3 +50,4 @@ public class AStar {
         return Math.abs(one.point().x() - two.point().x()) + Math.abs(one.point().y() - two.point().y());
     }
 }
+ 
