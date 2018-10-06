@@ -153,4 +153,8 @@ public class Maze {
         mark(last.point(), 'X');
         markPath(last);
     }
+    
+    public String getFileName() {
+        return mazeFile.getName();
+    }
 }

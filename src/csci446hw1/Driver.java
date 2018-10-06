@@ -31,16 +31,16 @@ public class Driver {
 
         String[] mazePaths = new String[]{openMaze, mediumMaze, largeMaze};
 
-//        for (String mazePath : mazePaths) {
-//            Maze maze = new Maze(new File(mazePath), '%', 'P', '*');
-//            GreedyBestFirst.execute(maze.startNode(), maze.goalNode(), maze);
-//            AStar.execute(maze.startNode(), maze.goalNode(), maze);
-//            BreadthFirst.execute(maze.startNode(), maze);
-//            DepthFirst.execute(maze.startNode(), maze);
-//        }
+        for (String mazePath : mazePaths) {
+            Maze maze = new Maze(new File(mazePath), '%', 'P', '*');
+            DepthFirst.execute(maze.startNode(), maze);
+            BreadthFirst.execute(maze.startNode(), maze);
+            GreedyBestFirst.execute(maze.startNode(), maze.goalNode(), maze);
+            AStar.execute(maze.startNode(), maze.goalNode(), maze);
+        }
 
-        Maze maze = new Maze(new File(currentMaze), '%', 'P', '*');
-        GreedyBestFirst.execute(maze.startNode(), maze.goalNode(), maze);
+        //Maze maze = new Maze(new File(currentMaze), '%', 'P', '*');
+        //GreedyBestFirst.execute(maze.startNode(), maze.goalNode(), maze);
         //AStar.execute(maze.startNode(), maze.goalNode(), maze);
         //BreadthFirst.execute(maze.startNode(), maze);
         //DepthFirst.execute(maze.startNode(), maze);

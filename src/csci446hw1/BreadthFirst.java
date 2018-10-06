@@ -16,6 +16,7 @@ public class BreadthFirst {
 
     public static Node execute(Node root, Maze maze) {
         System.out.println("Breadth First Search");
+        System.out.println(maze.getFileName());
         LinkedList<Node> frontier = new LinkedList<>();
         HashSet<Node> expanded = new HashSet<>();
 
@@ -23,7 +24,7 @@ public class BreadthFirst {
 
         while (!frontier.isEmpty()) {
             Node current = frontier.remove();
-            
+
             if (current.isGoal()) {
                 maze.markSolution(current);
                 System.out.println("Number of expanded nodes: " + expanded.size());
@@ -43,7 +44,7 @@ public class BreadthFirst {
             //maze.markExpanded(expanded, current);
             //maze.print();
         }
-        
+
         return null;
     }
 }

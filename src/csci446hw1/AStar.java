@@ -17,6 +17,7 @@ public class AStar {
 
     public static Node execute(Node start, Node goal, Maze maze) {
         System.out.println("A Star");
+        System.out.println(maze.getFileName());
         PriorityQueue<Node> frontier = new PriorityQueue<>();
         HashSet<Node> expanded = new HashSet<>();
 
@@ -27,17 +28,16 @@ public class AStar {
         while (!frontier.isEmpty()) {
             Node current = frontier.remove();
             expanded.add(current);
-             
+
             //maze.markExpanded(expanded, current);
             //maze.print();
-
             if (current == goal) {
                 maze.markSolution(current);
                 System.out.println("Number of expanded nodes: " + expanded.size());
                 maze.print();
                 return current;
             }
-            
+
             for (Node child : current.children()) {
                 if (expanded.contains(child)) {
                     continue;
@@ -49,7 +49,7 @@ public class AStar {
                 } else if (childCostFromStart >= child.getCostFromStart()) {
                     continue;
                 }
-                
+
                 child.setParent(current);
                 child.setCostFromStart(current.getCostFromStart() + 1);
                 child.setCost(child.getCostFromStart() + heuristicCostEstimate(child, goal));
