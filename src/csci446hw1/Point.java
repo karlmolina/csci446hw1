@@ -1,13 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package csci446hw1;
 
 /**
- *
- * @author Karl
+ * Point Class to store two integers x and y
+ * Methods exist to get the points up, down, left, and right of this point
+ * @author Karl Molina, Jordan Palmer
  */
 public class Point {
 
@@ -42,6 +39,10 @@ public class Point {
         return new Point(x, y + 1);
     }
 
+    /**
+     * Gets an array of the points surrounding this point
+     * @return 
+     */
     public Point[] surrounding() {
         return new Point[]{right(), up(), left(), down()};
     }

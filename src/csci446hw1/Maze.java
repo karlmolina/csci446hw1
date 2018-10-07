@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package csci446hw1;
 
 import java.io.File;
@@ -12,8 +8,9 @@ import java.util.HashSet;
 import java.util.Scanner;
 
 /**
- *
- * @author Karl
+ * A Maze Class that holds information about a maze
+ * Can use this to conduct searches on
+ * @author Karl Molina, Jordan Palmer
  */
 public class Maze {
 
@@ -25,6 +22,15 @@ public class Maze {
     private Node startNode, goalNode;
     private final File mazeFile;
 
+    /**
+     * Processes the file and created a 2D Node array that acts as a graph
+     * This graph holds the possible connections from each spot in the maze
+     * @param mazeFile
+     * @param wall
+     * @param start
+     * @param goal
+     * @throws FileNotFoundException 
+     */
     public Maze(File mazeFile, char wall, char start, char goal) throws FileNotFoundException {
         this.mazeFile = mazeFile;
         processFile();
@@ -70,7 +76,12 @@ public class Maze {
             }
         }
     }
-
+    
+    /**
+     * Helper function to process the file
+     * Stores the characters into a 2D array
+     * @throws FileNotFoundException 
+     */
     private void processFile() throws FileNotFoundException {
         Scanner in = new Scanner(mazeFile);
         ArrayList<String> lines = new ArrayList<>();
@@ -112,12 +123,19 @@ public class Maze {
         characters[point.y()][point.x()] = c;
     }
 
+    /**
+     * Removes all marks from the character array
+     */
     public void clean() {
         for (int i = 0; i < height; i++) {
             System.arraycopy(cleanCharacters[i], 0, characters[i], 0, width);
         }
     }
-
+    
+    /**
+     * Marks the solution of the maze using the finish node given
+     * @param finish 
+     */
     public void markSolution(Node finish) {
         clean();
         Node current = finish.parent();
@@ -130,6 +148,10 @@ public class Maze {
         System.out.println("Solution Cost: " + count);
     }
 
+    /**
+     * Marks the path taken from the Node last
+     * @param last 
+     */
     public void markPath(Node last) {
         Node current = last.parent();
         if (current != null) {
@@ -145,6 +167,12 @@ public class Maze {
         }
     }
 
+    /**
+     * Marks the expanded nodes using a HashSet of expanded nodes
+     * Used for debugging purposes
+     * @param expanded
+     * @param last 
+     */
     public void markExpanded(HashSet<Node> expanded, Node last) {
         clean();
         expanded.forEach((node) -> {

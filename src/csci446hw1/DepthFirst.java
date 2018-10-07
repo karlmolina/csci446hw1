@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package csci446hw1;
 
 import java.util.HashSet;
@@ -10,12 +6,18 @@ import java.util.Stack;
 
 /**
  *
- * @author Karl
+ * @author Karl Molina, Jordan Palmer
  */
 public class DepthFirst {
 
+    /**
+     * Executes the Depth First Search algorithm
+     * @param root The starting Node of the maze
+     * @param maze The maze to search through
+     * @return 
+     */
     public static Node execute(Node root, Maze maze) {
-        System.out.println("Depth First Search");
+        System.out.println("\nDepth First Search");
         System.out.println(maze.getFileName());
         Stack<Node> frontier = new Stack<>();
         HashSet<Node> expanded = new HashSet<>();
@@ -25,7 +27,10 @@ public class DepthFirst {
         while (!frontier.empty()) {
             current = frontier.pop();
             expanded.add(current);
+            
+            //loop through the children and add nodes to frontier
             for (Node child : current.children()) {
+                
                 //if you don't check the frontier then you expand nodes twice
                 if (!frontier.contains(child) && !expanded.contains(child)) {
                     child.setParent(current);

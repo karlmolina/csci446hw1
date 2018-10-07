@@ -1,15 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package csci446hw1;
 
 import java.util.ArrayList;
 
 /**
- *
- * @author Karl
+ * Node class to use for the search algorithms
+ * Holds parent and children to navigate through a graph or tree
+ * @author Karl Molina, Jordan Palmer
  */
 public class Node implements Comparable<Node>{
     private boolean isGoal;

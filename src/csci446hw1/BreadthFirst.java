@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package csci446hw1;
 
 import java.util.HashSet;
@@ -10,12 +6,18 @@ import java.util.LinkedList;
 
 /**
  *
- * @author Karl
+ * @author Karl Molina, Jordan Palmer
  */
 public class BreadthFirst {
 
+    /**
+     * Executes the breadth first search algorithm
+     * @param root The start of the maze
+     * @param maze The maze to search through
+     * @return The finish node set with it's parents of the path it took
+     */
     public static Node execute(Node root, Maze maze) {
-        System.out.println("Breadth First Search");
+        System.out.println("\nBreadth First Search");
         System.out.println(maze.getFileName());
         LinkedList<Node> frontier = new LinkedList<>();
         HashSet<Node> expanded = new HashSet<>();
@@ -34,6 +36,7 @@ public class BreadthFirst {
 
             expanded.add(current);
 
+            //loop through children and add nodes to frontier
             for (Node child : current.children()) {
                 if (!frontier.contains(child) && !expanded.contains(child)) {
                     child.setParent(current);
